@@ -150,7 +150,7 @@ def kp_connections(keypoints):
 PersonKeypoints.CONNECTIONS = kp_connections(PersonKeypoints.NAMES)
 
 class CarKeypoints(Keypoints):
-    NAMES = str(range(14))
+    NAMES = [str(x) for x in range(14)]
     FLIP_MAP = {
         '0': '1',
         '2': '3',
