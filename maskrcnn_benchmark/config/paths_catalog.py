@@ -47,6 +47,14 @@ class DatasetCatalog(object):
             "img_dir": "coco/val2014",
             "ann_file": "coco/annotations/person_keypoints_valminusminival2014.json",
         },
+        "keypoints_coco_carfusion_train": {
+            "img_dir": "coco/train2017",
+            "ann_file": "coco/annotations/car_keypoints_train.json",
+        },
+        "keypoints_coco_carfusion_test": {
+            "img_dir": "coco/test2017",
+            "ann_file": "coco/annotations/car_keypoints_test.json",
+        },
         "voc_2007_train": {
             "data_dir": "voc/VOC2007",
             "split": "train"
