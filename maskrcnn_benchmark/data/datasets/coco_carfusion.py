@@ -4,10 +4,10 @@ import torchvision
 
 from maskrcnn_benchmark.structures.bounding_box import BoxList
 from maskrcnn_benchmark.structures.segmentation_mask import SegmentationMask
-from maskrcnn_benchmark.structures.keypoint import PersonKeypoints
+from maskrcnn_benchmark.structures.keypoint import CarKeypoints
 
 
-min_keypoints_per_image = 10
+min_keypoints_per_image = 3
 
 
 def _count_visible_keypoints(anno):
