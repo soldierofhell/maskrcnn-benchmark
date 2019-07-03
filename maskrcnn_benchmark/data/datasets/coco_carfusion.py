@@ -88,7 +88,7 @@ class COCODataset(torchvision.datasets.coco.CocoDetection):
 
         if anno and "keypoints" in anno[0]:
             keypoints = [obj["keypoints"] for obj in anno]
-            keypoints = PersonKeypoints(keypoints, img.size)
+            keypoints = CarKeypoints(keypoints, img.size)
             target.add_field("keypoints", keypoints)
 
         target = target.clip_to_image(remove_empty=True)
