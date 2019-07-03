@@ -149,6 +149,42 @@ def kp_connections(keypoints):
     return kp_lines
 PersonKeypoints.CONNECTIONS = kp_connections(PersonKeypoints.NAMES)
 
+class CarKeypoints(Keypoints):
+    NAMES = str(range(14))
+    FLIP_MAP = {
+        'left_eye': 'right_eye',
+        'left_ear': 'right_ear',
+        'left_shoulder': 'right_shoulder',
+        'left_elbow': 'right_elbow',
+        'left_wrist': 'right_wrist',
+        'left_hip': 'right_hip',
+        'left_knee': 'right_knee',
+        'left_ankle': 'right_ankle'
+    }
+
+
+# TODO this doesn't look great
+PersonKeypoints.FLIP_INDS = _create_flip_indices(PersonKeypoints.NAMES, PersonKeypoints.FLIP_MAP)
+def kp_connections(keypoints):
+    kp_lines = [
+        [keypoints.index('left_eye'), keypoints.index('right_eye')],
+        [keypoints.index('left_eye'), keypoints.index('nose')],
+        [keypoints.index('right_eye'), keypoints.index('nose')],
+        [keypoints.index('right_eye'), keypoints.index('right_ear')],
+        [keypoints.index('left_eye'), keypoints.index('left_ear')],
+        [keypoints.index('right_shoulder'), keypoints.index('right_elbow')],
+        [keypoints.index('right_elbow'), keypoints.index('right_wrist')],
+        [keypoints.index('left_shoulder'), keypoints.index('left_elbow')],
+        [keypoints.index('left_elbow'), keypoints.index('left_wrist')],
+        [keypoints.index('right_hip'), keypoints.index('right_knee')],
+        [keypoints.index('right_knee'), keypoints.index('right_ankle')],
+        [keypoints.index('left_hip'), keypoints.index('left_knee')],
+        [keypoints.index('left_knee'), keypoints.index('left_ankle')],
+        [keypoints.index('right_shoulder'), keypoints.index('left_shoulder')],
+        [keypoints.index('right_hip'), keypoints.index('left_hip')],
+    ]
+    return kp_lines
+PersonKeypoints.CONNECTIONS = kp_connections(PersonKeypoints.NAMES)
 
 # TODO make this nicer, this is a direct translation from C2 (but removing the inner loop)
 def keypoints_to_heat_map(keypoints, rois, heatmap_size):
