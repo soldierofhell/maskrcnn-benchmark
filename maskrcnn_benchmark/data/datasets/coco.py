@@ -6,6 +6,7 @@ from maskrcnn_benchmark.structures.bounding_box import BoxList
 from maskrcnn_benchmark.structures.segmentation_mask import SegmentationMask
 from maskrcnn_benchmark.structures.keypoint import PersonKeypoints
 
+import pycocotools.mask as maskUtils
 
 min_keypoints_per_image = 10
 
@@ -35,6 +36,10 @@ def has_valid_annotation(anno):
         return True
     return False
 
+def poly2rle(segm, w, h):
+    rles = maskUtils.frPyObjects(segm, h, w)
+    rle = maskUtils.merge(rles)
+    return rle       
 
 class COCODataset(torchvision.datasets.coco.CocoDetection):
     def __init__(
@@ -83,7 +88,8 @@ class COCODataset(torchvision.datasets.coco.CocoDetection):
 
         if anno and "segmentation" in anno[0]:
             masks = [obj["segmentation"] for obj in anno]
-            masks = SegmentationMask(masks, img.size, mode='poly')
+            masks = [poly2rle(segm, img.size[1], img.size[0]) for segm in masks]
+            masks = SegmentationMask(masks, img.size, mode='mask')
             target.add_field("masks", masks)
 
         if anno and "keypoints" in anno[0]:
