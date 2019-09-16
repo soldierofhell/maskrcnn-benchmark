@@ -6,6 +6,8 @@ from maskrcnn_benchmark.structures.bounding_box import BoxList
 from maskrcnn_benchmark.structures.segmentation_mask import SegmentationMask
 from maskrcnn_benchmark.structures.keypoint import PersonKeypoints
 
+import cv2
+import numpy as np
 import pycocotools.mask as maskUtils
 
 min_keypoints_per_image = 10
@@ -39,7 +41,36 @@ def has_valid_annotation(anno):
 def poly2rle(segm, w, h):
     rles = maskUtils.frPyObjects(segm, h, w)
     rle = maskUtils.merge(rles)
-    return rle       
+    return rle
+
+def generate_pyramid_label(H, W, corner_points):
+    """
+
+    :param int H: image_H
+    :param int W: image_W
+    :param np.ndarray corner_points: dtype=np.float32, shape=[point_num, {x,y}] 3 <= point_num <= 8
+    :return: np.ndarray ans: dtype=np.float32, shape=[H, W]
+
+    generate a pyramid mask from corner_points 
+      within the bounding box {box_top=0, box_bottom=H, box_left=0, box_right=W}
+    """
+    center = corner_points.mean(axis=0)
+    vectors = corner_points - center
+    matrices = np.empty((4, 2, 2), dtype=np.float32)
+    for i in range(4):
+        m = vectors[[i, (i + 1) % 4]].T
+        matrices[i] = np.linalg.pinv(m)
+    points = np.empty((H, W, 2), dtype=np.float32)  # H, W, {x, y}
+    points[:, :, 0] = np.arange(W)
+    points[:, :, 1] = np.arange(H)[..., None]
+    points -= center
+    ans: np.ndarray = np.matmul(matrices[:, None, None, ...], points[..., None])
+    ans = ans.squeeze()
+    ans = (ans >= 0).all(axis=-1) * ans.sum(axis=-1)
+    ans = np.max(ans, axis=0)
+    ans = np.maximum(1 - ans, 0)
+    return ans
+
 
 class COCODataset(torchvision.datasets.coco.CocoDetection):
     def __init__(
@@ -88,8 +119,12 @@ class COCODataset(torchvision.datasets.coco.CocoDetection):
 
         if anno and "segmentation" in anno[0]:
             masks = [obj["segmentation"] for obj in anno]
-            masks = [poly2rle(segm, img.size[1], img.size[0]) for segm in masks]
+            #masks = [poly2rle(segm, img.size[1], img.size[0]) for segm in masks]
+            masks = [generate_pyramid_label(img.size[1], img.size[0], np.resize(np.array(segm), (-1,2)) for segm in masks]
+            for mask in masks:
+                cv2.imwrite(f'/content/sample_data/{idx}.jpg', mask)
             masks = SegmentationMask(masks, img.size, mode='mask')
+            #masks = masks.convert("mask")
             target.add_field("masks", masks)
 
         if anno and "keypoints" in anno[0]:
