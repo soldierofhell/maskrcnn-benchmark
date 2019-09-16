@@ -54,7 +54,7 @@ def generate_pyramid_label(H, W, corner_points):
     generate a pyramid mask from corner_points 
       within the bounding box {box_top=0, box_bottom=H, box_left=0, box_right=W}
     """
-    print('input: ', H, W, corner_points)
+    #print('input: ', H, W, corner_points)
     center = corner_points.mean(axis=0)
     vectors = corner_points - center
     matrices = np.empty((4, 2, 2), dtype=np.float32)
@@ -124,6 +124,7 @@ class COCODataset(torchvision.datasets.coco.CocoDetection):
             masks = [generate_pyramid_label(img.size[1], img.size[0], np.array(segm, dtype=np.float32).reshape(-1,2)) for segm in masks]
             for mask in masks:
                 cv2.imwrite(f'/content/sample_data/{idx}.jpg', mask)
+            masks = [torch.as_tensor(mask) for mask in masks]
             masks = SegmentationMask(masks, img.size, mode='mask')
             #masks = masks.convert("mask")
             target.add_field("masks", masks)
