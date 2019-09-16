@@ -123,7 +123,7 @@ class COCODataset(torchvision.datasets.coco.CocoDetection):
             #masks = [poly2rle(segm, img.size[1], img.size[0]) for segm in masks]
             masks = [generate_pyramid_label(img.size[1], img.size[0], np.array(segm, dtype=np.float32).reshape(-1,2)) for segm in masks]
             for mask in masks:
-                cv2.imwrite(f'/content/sample_data/{idx}.jpg', mask)
+                cv2.imwrite(f'/content/sample_data/{idx}.jpg', mask*255.0)
             masks = [torch.as_tensor(mask) for mask in masks]
             masks = SegmentationMask(masks, img.size, mode='mask')
             #masks = masks.convert("mask")
