@@ -139,7 +139,7 @@ class MaskRCNNLossComputation(object):
         input = mask_logits[positive_inds, labels_pos]
         target = mask_targets
         
-        input = torch.where(target>0, input, 0)
+        input = torch.where(target>0, input, torch.zeros_like(input))
         
         l1_loss = L1Loss()
         mask_loss = 5*l1_loss(input, target)
@@ -152,7 +152,7 @@ class MaskRCNNLossComputation(object):
         save_image(target[:,None,:,:], os.path.join('/content/sample_data', filename+'_target.jpg'))
         save_image(mask_loss_debug[:,None,:,:], os.path.join('/content/sample_data', filename+'_l1_loss_debug.jpg'))
         
-        print(input[0,14,:], target[0,14,:], mask_loss_debug[0,14,:])
+        #print(input[0,14,:], target[0,14,:], mask_loss_debug[0,14,:])
         
         #mask_loss = 5*smooth_l1_loss(
         #    mask_logits[positive_inds, labels_pos],
