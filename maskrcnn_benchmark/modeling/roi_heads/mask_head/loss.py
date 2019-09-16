@@ -135,15 +135,14 @@ class MaskRCNNLossComputation(object):
         
         #print('logits: ', mask_logits[positive_inds, labels_pos].size())
         #print('targets: ', mask_targets.size())
-        
-        l1_loss = L1Loss()
-        mask_loss = 5*l1_loss(
-            mask_logits[positive_inds, labels_pos],
-            mask_targets,
-        )
-        
+
         input = mask_logits[positive_inds, labels_pos]
         target = mask_targets
+        
+        input = torch.where(target>0, input, 0)
+        
+        l1_loss = L1Loss()
+        mask_loss = 5*l1_loss(input, target)
         
         l1_loss_debug = L1Loss(reduction = 'none')
         mask_loss_debug = l1_loss_debug(input, target)
