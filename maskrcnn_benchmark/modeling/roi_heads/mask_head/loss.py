@@ -131,7 +131,6 @@ class MaskRCNNLossComputation(object):
         mask_loss = smooth_l1_loss(
             mask_logits[positive_inds, labels_pos],
             mask_targets,
-            size_average=False,
             beta=1,
         )
         
