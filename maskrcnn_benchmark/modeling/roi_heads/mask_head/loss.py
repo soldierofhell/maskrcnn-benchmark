@@ -8,6 +8,7 @@ from maskrcnn_benchmark.structures.boxlist_ops import boxlist_iou
 from maskrcnn_benchmark.modeling.utils import cat
 
 from maskrcnn_benchmark.layers import smooth_l1_loss
+from torch.nn import L1Loss
 
 
 def project_masks_on_boxes(segmentation_masks, proposals, discretization_size):
@@ -131,13 +132,13 @@ class MaskRCNNLossComputation(object):
         #print('logits: ', mask_logits[positive_inds, labels_pos].size())
         #print('targets: ', mask_targets.size())
         
-        l1_loss = nn.L1Loss()
+        l1_loss = L1Loss()
         mask_loss = 5*l1_loss(
             mask_logits[positive_inds, labels_pos],
             mask_targets,
         )
         
-        l1_loss_debug = nn.L1Loss(reduction = 'none')
+        l1_loss_debug = L1Loss(reduction = 'none')
         mask_loss_debug = l1_loss_debug(
             mask_logits[positive_inds, labels_pos],
             mask_targets,
