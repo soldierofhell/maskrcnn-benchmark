@@ -138,13 +138,13 @@ class MaskRCNNLossComputation(object):
             mask_targets,
         )
         
-        l1_loss_debug = L1Loss(reduction = 'none')
-        mask_loss_debug = l1_loss_debug(
-            mask_logits[positive_inds, labels_pos],
-            mask_targets,
-        )
+        #l1_loss_debug = L1Loss(reduction = 'none')
+        #mask_loss_debug = l1_loss_debug(
+        #    mask_logits[positive_inds, labels_pos],
+        #    mask_targets,
+        #)
         
-        print(mask_logits[positive_inds, labels_pos][0,14,:], mask_targets[0,14,:], mask_loss_debug[0,14,:])
+        #print(mask_logits[positive_inds, labels_pos][0,14,:], mask_targets[0,14,:], mask_loss_debug[0,14,:])
         
         #mask_loss = 5*smooth_l1_loss(
         #    mask_logits[positive_inds, labels_pos],
