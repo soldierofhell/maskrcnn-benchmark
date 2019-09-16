@@ -148,7 +148,7 @@ class MaskRCNNLossComputation(object):
         #l1_loss_debug = L1Loss(reduction = 'none')
         #mask_loss_debug = l1_loss_debug(input, target)
         
-        print(torch.mean(input))
+        #print(torch.mean(input))
         
         filename = f'{random.randrange(1000)}'
         #save_image(input[:,None,:,:], os.path.join('/content/sample_data', filename+'_input.jpg'))
