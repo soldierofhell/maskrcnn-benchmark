@@ -54,6 +54,7 @@ def generate_pyramid_label(H, W, corner_points):
     generate a pyramid mask from corner_points 
       within the bounding box {box_top=0, box_bottom=H, box_left=0, box_right=W}
     """
+    print('input: ', H, W, corner_points)
     center = corner_points.mean(axis=0)
     vectors = corner_points - center
     matrices = np.empty((4, 2, 2), dtype=np.float32)
