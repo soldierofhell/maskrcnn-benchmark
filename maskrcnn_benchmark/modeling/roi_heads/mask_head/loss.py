@@ -128,8 +128,8 @@ class MaskRCNNLossComputation(object):
         #    mask_logits[positive_inds, labels_pos], mask_targets
         #)
         
-        print('logits: ', mask_logits[positive_inds, labels_pos].size)
-        print('targets: ', mask_targets.size)
+        print('logits: ', mask_logits[positive_inds, labels_pos].size())
+        print('targets: ', mask_targets.size())
         
         mask_loss = 5*smooth_l1_loss(
             mask_logits[positive_inds, labels_pos],
