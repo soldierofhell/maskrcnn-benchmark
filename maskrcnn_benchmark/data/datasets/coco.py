@@ -120,7 +120,7 @@ class COCODataset(torchvision.datasets.coco.CocoDetection):
         if anno and "segmentation" in anno[0]:
             masks = [obj["segmentation"] for obj in anno]
             #masks = [poly2rle(segm, img.size[1], img.size[0]) for segm in masks]
-            masks = [generate_pyramid_label(img.size[1], img.size[0], np.resize(np.array(segm), (-1,2)) for segm in masks]
+            masks = [generate_pyramid_label(img.size[1], img.size[0], np.resize(np.array(segm), (-1,2))) for segm in masks]
             for mask in masks:
                 cv2.imwrite(f'/content/sample_data/{idx}.jpg', mask)
             masks = SegmentationMask(masks, img.size, mode='mask')
