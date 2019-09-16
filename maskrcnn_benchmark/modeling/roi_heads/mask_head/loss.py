@@ -7,6 +7,8 @@ from maskrcnn_benchmark.modeling.matcher import Matcher
 from maskrcnn_benchmark.structures.boxlist_ops import boxlist_iou
 from maskrcnn_benchmark.modeling.utils import cat
 
+from maskrcnn_benchmark.layers import smooth_l1_loss
+
 
 def project_masks_on_boxes(segmentation_masks, proposals, discretization_size):
     """
@@ -122,9 +124,17 @@ class MaskRCNNLossComputation(object):
         if mask_targets.numel() == 0:
             return mask_logits.sum() * 0
 
-        mask_loss = F.binary_cross_entropy_with_logits(
-            mask_logits[positive_inds, labels_pos], mask_targets
+        #mask_loss = F.binary_cross_entropy_with_logits(
+        #    mask_logits[positive_inds, labels_pos], mask_targets
+        #)
+        
+        mask_loss = smooth_l1_loss(
+            mask_logits[positive_inds, labels_pos],
+            mask_targets,
+            size_average=False,
+            beta=1,
         )
+        
         return mask_loss
 
 
