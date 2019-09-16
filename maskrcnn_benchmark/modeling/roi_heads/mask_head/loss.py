@@ -153,7 +153,7 @@ class MaskRCNNLossComputation(object):
         save_image(target[:,None,:,:], os.path.join('/content/sample_data', filename+'_target.jpg'))
         save_image(mask_loss_debug[:,None,:,:], os.path.join('/content/sample_data', filename+'_l1_loss_debug.jpg'))
         
-        #print(mask_logits[positive_inds, labels_pos][0,14,:], mask_targets[0,14,:], mask_loss_debug[0,14,:])
+        print(input[0,14,:], target[0,14,:], mask_loss_debug[0,14,:])
         
         #mask_loss = 5*smooth_l1_loss(
         #    mask_logits[positive_inds, labels_pos],
