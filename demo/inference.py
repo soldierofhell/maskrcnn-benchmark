@@ -36,7 +36,7 @@ class PlaneClustering(Masker):
         boundary = torch.as_tensor([[0, 0], [MASK_SCALE, 0], [MASK_SCALE, MASK_SCALE], [0, MASK_SCALE]],
                                    dtype=torch.float32)
         try:
-            if torch.max(mask) <= 0.7:
+            if torch.max(mask) <= 0.5:
                 raise ValueError('No apex')
             src_points = torch.cat([self.assist_info, mask[..., None]], dim=2)
             pos_points = src_points[(mask > 0.5) & (mask < 0.8)]
