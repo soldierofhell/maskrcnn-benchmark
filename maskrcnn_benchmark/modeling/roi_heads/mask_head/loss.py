@@ -139,7 +139,7 @@ class MaskRCNNLossComputation(object):
         input = mask_logits[positive_inds, labels_pos]
         target = mask_targets
         
-        input = torch.where(target>0, input, torch.zeros_like(input))
+        #input = torch.where(target>0, input, torch.zeros_like(input))
         
         #l1_loss = L1Loss()
         #mask_loss = 5*l1_loss(input, target)
