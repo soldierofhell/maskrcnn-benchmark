@@ -2,8 +2,8 @@ import cv2
 import numpy as np
 from torchvision import transforms as T
 
-from demo.inference import PlaneClustering
-from demo.predictor import COCODemo
+from inference import PlaneClustering
+from predictor import COCODemo
 from maskrcnn_benchmark.modeling.roi_heads.mask_head.inference import Masker
 from maskrcnn_benchmark.utils import cv2_util
 
