@@ -43,6 +43,7 @@ class PlaneClustering(Masker):
             planes = plane_init(pos_points, ideal_value=1)
             planes = plane_clustering(pos_points, planes)
             points = get_intersection_of_plane(planes)
+            print('points: ', points)
             if not is_clockwise(points):
                 raise ValueError("Points is not clockwise")
             points = torch.clamp(points, - 0.5 * MASK_SCALE, 1.5 * MASK_SCALE)
