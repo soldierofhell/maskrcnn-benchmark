@@ -131,6 +131,7 @@ class COCODemo(object):
     def __init__(
         self,
         cfg,
+        masker,
         confidence_threshold=0.7,
         show_mask_heatmaps=False,
         masks_per_dim=2,
@@ -149,8 +150,12 @@ class COCODemo(object):
 
         self.transforms = self.build_transform()
 
-        mask_threshold = -1 if show_mask_heatmaps else 0.5
-        self.masker = Masker(threshold=mask_threshold, padding=1)
+        #mask_threshold = -1 if show_mask_heatmaps else 0.5
+        #self.masker = Masker(threshold=mask_threshold, padding=1)
+        if show_mask_heatmaps:
+            self.masker = Masker(threshold=-1, padding=1)
+        else:
+            self.masker = masker
 
         # used to make colors for each class
         self.palette = torch.tensor([2 ** 25 - 1, 2 ** 15 - 1, 2 ** 21 - 1])
