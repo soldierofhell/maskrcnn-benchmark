@@ -4,7 +4,6 @@ from torchvision import transforms as T
 
 from demo.inference import PlaneClustering
 from demo.predictor import COCODemo
-from demo.transforms import Resize
 from maskrcnn_benchmark.modeling.roi_heads.mask_head.inference import Masker
 from maskrcnn_benchmark.utils import cv2_util
 
@@ -18,24 +17,6 @@ class PMTDDemo(COCODemo):
     def __init__(self, cfg, masker, **kwargs):
         assert isinstance(masker, Masker)
         super().__init__(cfg, masker, **kwargs)
-
-    def build_transform(self):
-        """
-        Creates a basic transformation that was used to train the models
-        """
-        cfg = self.cfg
-        normalize_transform = T.Normalize(
-            mean=cfg.INPUT.PIXEL_MEAN, std=cfg.INPUT.PIXEL_STD
-        )
-        transform = T.Compose(
-            [
-                T.ToPILImage(),
-                Resize(max_size=cfg.INPUT.MAX_SIZE_TEST),
-                T.ToTensor(),
-                normalize_transform,
-            ]
-        )
-        return transform
 
     def overlay_mask(self, image, predictions):
         """
