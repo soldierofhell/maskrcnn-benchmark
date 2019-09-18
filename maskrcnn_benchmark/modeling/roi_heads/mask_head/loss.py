@@ -141,6 +141,9 @@ class MaskRCNNLossComputation(object):
         
         input = torch.where(target>0, input, torch.zeros_like(input))
         
+        input_1 = input[target>0]
+        print('input min, max, mean, std: ', torch.min(input_1), torch.max(input_1), torch.mean(input_1), torch.std(input_1))
+        
         #l1_loss = L1Loss()
         #mask_loss = 5*l1_loss(input, target)
         mask_loss = 5*smooth_l1_loss(input, target)        
