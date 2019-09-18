@@ -149,7 +149,10 @@ class MaskRCNNLossComputation(object):
         
         #l1_loss = L1Loss()
         #mask_loss = 5*l1_loss(input, target)
-        mask_loss = 5*smooth_l1_loss(input, target)        
+        #mask_loss = 5*smooth_l1_loss(input, target)
+        
+        l2_loss = torch.nn.MSELoss()
+        mask_loss = 5*l2_loss(input, target)
         
         #l1_loss_debug = L1Loss(reduction = 'none')
         #mask_loss_debug = l1_loss_debug(input, target)
