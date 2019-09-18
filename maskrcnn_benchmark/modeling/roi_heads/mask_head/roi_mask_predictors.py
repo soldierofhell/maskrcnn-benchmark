@@ -31,7 +31,7 @@ class MaskRCNNC4Predictor_Upsample(nn.Module):
     def forward(self, x):
         x = F.relu(self.conv5_mask(x))
         # In PMTD, we move sigmoid from ROIMaskHead.post_processor to here
-        return self.mask_fcn_logits(x).sigmoid()
+        return self.mask_fcn_logits(x) #.sigmoid()
 
 @registry.ROI_MASK_PREDICTOR.register("MaskRCNNC4Predictor")
 class MaskRCNNC4Predictor(nn.Module):
@@ -54,7 +54,7 @@ class MaskRCNNC4Predictor(nn.Module):
 
     def forward(self, x):
         x = F.relu(self.conv5_mask(x))
-        return self.mask_fcn_logits(x).sigmoid()
+        return self.mask_fcn_logits(x) #.sigmoid()
 
 
 @registry.ROI_MASK_PREDICTOR.register("MaskRCNNConv1x1Predictor")
