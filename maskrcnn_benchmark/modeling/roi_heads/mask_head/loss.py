@@ -148,8 +148,8 @@ class MaskRCNNLossComputation(object):
         #print('target min, max, mean, std: ', torch.stack((torch.min(target_1), torch.max(target_1), torch.mean(target_1), torch.std(target_1))))
         
         l1_loss = L1Loss()
-        mask_loss = 5*l1_loss(input, target)
-        #mask_loss = 5*smooth_l1_loss(input, target)
+        #mask_loss = 5*l1_loss(input, target)
+        mask_loss = 5*smooth_l1_loss(input, target)
         
         #l2_loss = torch.nn.MSELoss()
         #mask_loss = 5*l2_loss(input, target)
