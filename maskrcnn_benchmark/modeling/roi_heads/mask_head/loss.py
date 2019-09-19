@@ -127,10 +127,7 @@ class MaskRCNNLossComputation(object):
         if mask_targets.numel() == 0:
             return mask_logits.sum() * 0
 
-        #mask_loss = F.binary_cross_entropy_with_logits(
-        #    mask_logits[positive_inds, labels_pos], mask_targets
-        #)
-        
+
         
         
         #print('logits: ', mask_logits[positive_inds, labels_pos].size())
@@ -147,9 +144,13 @@ class MaskRCNNLossComputation(object):
         #print('input min, max, mean, std: ', torch.stack((torch.min(input_1), torch.max(input_1), torch.mean(input_1), torch.std(input_1))))
         #print('target min, max, mean, std: ', torch.stack((torch.min(target_1), torch.max(target_1), torch.mean(target_1), torch.std(target_1))))
         
-        l1_loss = L1Loss()
+        mask_loss = F.binary_cross_entropy_with_logits(
+            mask_logits[positive_inds, labels_pos], mask_targets
+        )
+        
+        #l1_loss = L1Loss()
         #mask_loss = 5*l1_loss(input, target)
-        mask_loss = 5*smooth_l1_loss(input, target)
+        #mask_loss = 5*smooth_l1_loss(input, target)
         
         #l2_loss = torch.nn.MSELoss()
         #mask_loss = 5*l2_loss(input, target)
