@@ -136,7 +136,8 @@ class MaskRCNNLossComputation(object):
         input = mask_logits[positive_inds, labels_pos]
         target = mask_targets
         
-        input_with_zeros = torch.where(target>0, F.sigmoid(input), torch.zeros_like(input))
+        #input_with_zeros = torch.where(target>0, F.sigmoid(input), torch.zeros_like(input))
+        input_with_zeros = torch.where(target>0, input, torch.zeros_like(input))
         
         #input_1 = input[target>0]
         #target_1 = target[target>0]
@@ -149,9 +150,9 @@ class MaskRCNNLossComputation(object):
         #)
         
         #mask_loss = 5*F.l1_loss(input_with_zeros, target)
-        #mask_loss = 5*smooth_l1_loss(input_with_zeros, target)
+        mask_loss = 5*smooth_l1_loss(input_with_zeros, target)
         
-        mask_loss = 5*F.mse_loss(input_with_zeros, target)
+        #mask_loss = 5*F.mse_loss(input_with_zeros, target)
         
         #l1_loss_debug = L1Loss(reduction = 'none')
         #mask_loss_debug = l1_loss_debug(input, target)
