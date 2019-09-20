@@ -11,7 +11,7 @@ from maskrcnn_benchmark.layers import smooth_l1_loss
 from torch.nn import L1Loss
 
 from torchvision.utils import save_image
-import os, random
+import os, random, time
 
 def project_masks_on_boxes(segmentation_masks, proposals, discretization_size):
     """
@@ -160,10 +160,12 @@ class MaskRCNNLossComputation(object):
         
         #print(torch.mean(input))
         
-        filename = f'{random.randrange(1000)}'
-        #save_image(input[:,None,:,:], os.path.join('/content/sample_data', filename+'_input.jpg'))
-        #save_image(target[:,None,:,:], os.path.join('/content/sample_data', filename+'_target.jpg'))
-        #save_image(mask_loss_debug[:,None,:,:], os.path.join('/content/sample_data', filename+'_l1_loss_debug.jpg'))
+        rnd = random.randrange(1000)
+        if rnd % 100 == 0:
+            filename = f'{time.time()}_{rnd}'        
+            save_image(input[:,None,:,:], os.path.join('/content/sample_data', filename+'_input.jpg'))
+            save_image(target[:,None,:,:], os.path.join('/content/sample_data', filename+'_target.jpg'))
+            save_image(mask_loss_debug[:,None,:,:], os.path.join('/content/sample_data', filename+'_l1_loss_debug.jpg'))
         
         #print(input[0,14,:], target[0,14,:], mask_loss_debug[0,14,:])
         
