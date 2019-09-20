@@ -165,7 +165,7 @@ class MaskRCNNLossComputation(object):
             filename = f'{time.time()}_{rnd}'        
             save_image(input[:,None,:,:], os.path.join('/content/sample_data', filename+'_input.jpg'))
             save_image(target[:,None,:,:], os.path.join('/content/sample_data', filename+'_target.jpg'))
-            save_image(mask_loss_debug[:,None,:,:], os.path.join('/content/sample_data', filename+'_l1_loss_debug.jpg'))
+            #save_image(mask_loss_debug[:,None,:,:], os.path.join('/content/sample_data', filename+'_l1_loss_debug.jpg'))
         
         #print(input[0,14,:], target[0,14,:], mask_loss_debug[0,14,:])
         
