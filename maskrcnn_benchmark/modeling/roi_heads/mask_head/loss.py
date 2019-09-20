@@ -160,8 +160,8 @@ class MaskRCNNLossComputation(object):
         
         #print(torch.mean(input))
         
-        rnd = random.randrange(1000)
-        if rnd % 100 == 0:
+        rnd = random.randrange(10)
+        if rnd % 10 == 0:
             filename = f'{time.time()}_{rnd}'        
             save_image(input[:,None,:,:], os.path.join('/content/sample_data', filename+'_input.jpg'))
             save_image(target[:,None,:,:], os.path.join('/content/sample_data', filename+'_target.jpg'))
