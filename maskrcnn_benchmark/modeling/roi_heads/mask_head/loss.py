@@ -144,16 +144,14 @@ class MaskRCNNLossComputation(object):
         #print('input min, max, mean, std: ', torch.stack((torch.min(input_1), torch.max(input_1), torch.mean(input_1), torch.std(input_1))))
         #print('target min, max, mean, std: ', torch.stack((torch.min(target_1), torch.max(target_1), torch.mean(target_1), torch.std(target_1))))
         
-        mask_loss = F.binary_cross_entropy_with_logits(
-            input_with_zeros, target #mask_logits[positive_inds, labels_pos], mask_targets
-        )
+        #mask_loss = 5*F.binary_cross_entropy_with_logits(
+        #    input_with_zeros, target #mask_logits[positive_inds, labels_pos], mask_targets
+        #)
         
-        #l1_loss = L1Loss()
-        #mask_loss = 5*l1_loss(input_with_zeros, target)
+        #mask_loss = 5*F.l1_loss(input_with_zeros, target)
         #mask_loss = 5*smooth_l1_loss(input_with_zeros, target)
         
-        #l2_loss = torch.nn.MSELoss()
-        #mask_loss = 5*l2_loss(input, target)
+        mask_loss = 5*F.mse_loss(input_with_zeros, target)
         
         #l1_loss_debug = L1Loss(reduction = 'none')
         #mask_loss_debug = l1_loss_debug(input, target)
@@ -161,7 +159,7 @@ class MaskRCNNLossComputation(object):
         #print(torch.mean(input))
         
         rnd = random.randrange(20)
-        if rnd % 20 == 0:
+        if rnd % 100 == 0:
             filename = f'{time.time()}'
             # todo: 1. color palette 2. stack
             save_image(input[:,None,:,:], os.path.join('/content/sample_data', filename+'_input.jpg'))
