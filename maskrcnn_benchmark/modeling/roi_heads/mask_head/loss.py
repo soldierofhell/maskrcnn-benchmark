@@ -136,7 +136,7 @@ class MaskRCNNLossComputation(object):
         input = mask_logits[positive_inds, labels_pos]
         target = mask_targets
         
-        input_with_zeros = torch.where(target>0, input, torch.zeros_like(input))
+        input_with_zeros = (torch.where(target>0, F.sigmoid(input), torch.zeros_like(input))
         
         #input_1 = input[target>0]
         #target_1 = target[target>0]
