@@ -140,8 +140,8 @@ class MaskRCNNLossComputation(object):
         input_with_zeros = torch.where(target>0, input, torch.zeros_like(input))
         #input_with_zeros = torch.where(target>0, 0.5*(F.tanh(input)+1), torch.zeros_like(input))
         
-        input_1 = F.logsigmoid(input[target>0])
-        target_1 = target[target>0]
+        #input_1 = F.logsigmoid(input[target>0])
+        #target_1 = target[target>0]
         
         #print('input min, max, mean, std: ', torch.stack((torch.min(input_1), torch.max(input_1), torch.mean(input_1), torch.std(input_1))))
         #print('target min, max, mean, std: ', torch.stack((torch.min(target_1), torch.max(target_1), torch.mean(target_1), torch.std(target_1))))
@@ -151,9 +151,9 @@ class MaskRCNNLossComputation(object):
         #)
         
         #mask_loss = 5*F.l1_loss(input_with_zeros, target)
-        #mask_loss = 5*smooth_l1_loss(input_with_zeros, target)
+        mask_loss = 5*smooth_l1_loss(input_with_zeros, target)
         
-        mask_loss = 5*F.kl_div(input_1, target_1)
+        #mask_loss = 5*F.kl_div(input_1, target_1)
         
         #mask_loss = 5*F.mse_loss(input_with_zeros, target)
         
