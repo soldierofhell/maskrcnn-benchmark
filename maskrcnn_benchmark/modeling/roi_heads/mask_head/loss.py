@@ -147,7 +147,7 @@ class MaskRCNNLossComputation(object):
         #print('target min, max, mean, std: ', torch.stack((torch.min(target_1), torch.max(target_1), torch.mean(target_1), torch.std(target_1))))
         
         mask_loss = F.binary_cross_entropy_with_logits(
-            input_with_zeros, target #mask_logits[positive_inds, labels_pos], mask_targets
+            input, target #mask_logits[positive_inds, labels_pos], mask_targets
         )
         
         #mask_loss = 5*F.l1_loss(input_with_zeros, target)
