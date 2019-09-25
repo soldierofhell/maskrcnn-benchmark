@@ -76,7 +76,7 @@ def plane_init(pos_points, ideal_value):
     return planes
 
 
-def plane_clustering(pos_points, planes, iter_num=10):
+def plane_clustering(pos_points, planes, iter_num=20):
     ones = torch.ones((1, 4), dtype=torch.float32)
     for iter in range(iter_num):
         ans = torch.abs(torch.matmul(pos_points, torch.cat([planes, ones])))
