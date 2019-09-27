@@ -176,7 +176,10 @@ class KeypointRCNNLossComputation(object):
         rnd = random.randrange(20)
         if rnd % 20 == 0:
             filename = f'{time.time()}'
-            save_image(input[:,None,:,:], os.path.join('/content/sample_data', filename+'_kp_input.jpg'))
+            save_image(input[0,None,:,:], os.path.join('/content/sample_data', filename+'_kp0_input.jpg'))
+            save_image(input[1,None,:,:], os.path.join('/content/sample_data', filename+'_kp1_input.jpg'))
+            save_image(input[2,None,:,:], os.path.join('/content/sample_data', filename+'_kp2_input.jpg'))
+            save_image(input[3,None,:,:], os.path.join('/content/sample_data', filename+'_kp3_input.jpg'))
             #save_image(target[:,None,:,:], os.path.join('/content/sample_data', filename+'_kp_target.jpg'))
         
         return keypoint_loss
