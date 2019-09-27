@@ -170,7 +170,7 @@ class KeypointRCNNLossComputation(object):
         
         keypoint_loss = F.cross_entropy(keypoint_logits[valid], keypoint_targets[valid])
         
-        input = keypoint_logits.view(N * K, H, W)
+        input = F.sigmoid(keypoint_logits.view(N * K, H, W))
         #target = keypoint_targets[valid]
         
         rnd = random.randrange(20)
@@ -182,10 +182,10 @@ class KeypointRCNNLossComputation(object):
             save_image(input[3,None,:,:], os.path.join('/content/sample_data', filename+'_kp3_input.jpg'))
             #save_image(target[:,None,:,:], os.path.join('/content/sample_data', filename+'_kp_target.jpg'))
             
-            print('N , K, H, W: ', N , K, H, W)
-            print('input: ', keypoint_logits.size(), keypoint_logits)
-            print('target: ', keypoint_targets.size(), keypoint_targets)
-            print('valid: ', valid.size(), valid)
+            #print('N , K, H, W: ', N , K, H, W)
+            #print('input: ', keypoint_logits.size(), keypoint_logits)
+            #print('target: ', keypoint_targets.size(), keypoint_targets)
+            #print('valid: ', valid.size(), valid)
         
         return keypoint_loss
 
