@@ -186,6 +186,23 @@ def kp_carfusion_connections(keypoints):
     return kp_lines
 CarKeypoints.CONNECTIONS = kp_carfusion_connections(CarKeypoints.NAMES)
 
+class TextKeypoints(Keypoints):
+    NAMES = [str(x) for x in range(4)]
+    FLIP_MAP = {
+        '0': '3',
+        '1': '2',
+    }
+
+# TODO this doesn't look great
+TextKeypoints.FLIP_INDS = _create_flip_indices(TextKeypoints.NAMES, TextKeypoints.FLIP_MAP)
+def kp_text_connections(keypoints):
+    kp_lines = [[0,1],
+                 [1,2],
+                 [2,3],
+                 [3,0]]
+    return kp_lines
+TextKeypoints.CONNECTIONS = kp_text_connections(TextKeypoints.NAMES)
+
 # TODO make this nicer, this is a direct translation from C2 (but removing the inner loop)
 def keypoints_to_heat_map(keypoints, rois, heatmap_size):
     if rois.numel() == 0:
