@@ -13,6 +13,9 @@ from maskrcnn_benchmark.structures.boxlist_ops import cat_boxlist
 
 from maskrcnn_benchmark.structures.keypoint import keypoints_to_heat_map
 
+from torchvision.utils import save_image
+import os, random, time
+
 
 def project_keypoints_to_heatmap(keypoints, proposals, discretization_size):
     proposals = proposals.convert("xyxy")
@@ -164,8 +167,18 @@ class KeypointRCNNLossComputation(object):
 
         N, K, H, W = keypoint_logits.shape
         keypoint_logits = keypoint_logits.view(N * K, H * W)
-
+        
         keypoint_loss = F.cross_entropy(keypoint_logits[valid], keypoint_targets[valid])
+        
+        input = keypoint_logits.view(N * K, H, W)
+        #target = keypoint_targets[valid]
+        
+        rnd = random.randrange(20)
+        if rnd % 20 == 0:
+            filename = f'{time.time()}'
+            save_image(input[:,None,:,:], os.path.join('/content/sample_data', filename+'_kp_input.jpg'))
+            #save_image(target[:,None,:,:], os.path.join('/content/sample_data', filename+'_kp_target.jpg'))
+        
         return keypoint_loss
 
 
