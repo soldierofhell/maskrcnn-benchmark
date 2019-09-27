@@ -182,6 +182,7 @@ class KeypointRCNNLossComputation(object):
             save_image(input[3,None,:,:], os.path.join('/content/sample_data', filename+'_kp3_input.jpg'))
             #save_image(target[:,None,:,:], os.path.join('/content/sample_data', filename+'_kp_target.jpg'))
             
+            print('N , K, H, W: ', N , K, H, W)
             print('input: ', keypoint_logits.size(), keypoint_logits)
             print('target: ', keypoint_targets.size(), keypoint_targets)
             print('valid: ', valid.size(), valid)
