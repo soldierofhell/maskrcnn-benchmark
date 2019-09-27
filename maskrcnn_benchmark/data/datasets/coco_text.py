@@ -4,13 +4,13 @@ import torchvision
 
 from maskrcnn_benchmark.structures.bounding_box import BoxList
 from maskrcnn_benchmark.structures.segmentation_mask import SegmentationMask
-from maskrcnn_benchmark.structures.keypoint import PersonKeypoints
+from maskrcnn_benchmark.structures.keypoint import TextKeypoints
 
 import cv2
 import numpy as np
 import pycocotools.mask as maskUtils
 
-min_keypoints_per_image = 10
+min_keypoints_per_image = 4
 
 
 def _count_visible_keypoints(anno):
@@ -131,7 +131,7 @@ class COCODataset(torchvision.datasets.coco.CocoDetection):
 
         if anno and "keypoints" in anno[0]:
             keypoints = [obj["keypoints"] for obj in anno]
-            keypoints = PersonKeypoints(keypoints, img.size)
+            keypoints = TextKeypoints(keypoints, img.size)
             target.add_field("keypoints", keypoints)
 
         target = target.clip_to_image(remove_empty=True)
